@@ -10,15 +10,22 @@ def create_data(request, type):
         try:
             data = JSONParser().parse(request)
             if type == 'song':
-                models.song.objects.create(name=data['name'], duration=data['duration'])
+                serializer_data = serializer.song_serializer(data=data)
+                if serializer_data.is_valid():
+                    serializer_data.save() 
             elif type == 'podcast':
-                models.podcast.objects.create(name=data['name'], duration=data['duration'], host=data['host'], participants=data['participants'])
+                serializer_data = serializer.podcast_serializer(data=data)
+                if serializer_data.is_valid():
+                    serializer_data.save()
             elif type == 'audio_book':
-                models.audio_book.objects.create(title=data['title'], author=data['author'], narrator=data['narrator'], duration=data['duration'])
+                serializer_data = serializer.audio_book_serializer(data=data)
+                if serializer_data.is_valid():
+                    serializer_data.save()
             else:
                 return HttpResponse(status=400)
             return HttpResponse(status=200)
-        except:
+        except Exception as e:
+            # print(str(e))
             return HttpResponse(status=400)
     else:
         return HttpResponse(status=400)

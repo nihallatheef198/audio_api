@@ -20,7 +20,7 @@ from audio_api import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     # create
-    path('<str:type>/', views.create_data),
+    path('api/<str:type>/', views.create_data),
     # view_update_delete
-    path('<str:type>/<int:pk>/', views.view_update_delete_api.as_view()),
+    path('api/<str:type>/<int:pk>/', views.view_update_delete_api.as_view()),
 ]
